@@ -10,15 +10,14 @@ function [S,eqv] = stndform(G)
 
 S = G;
 eqv = false;
-nk = size(G,1);
+k = size(G,1);
 n = size(G,2);
-k = n - nk;
-if n <= k %in a linear code the matrix should be a nx(n-k) where the code is a [n,k,d]-code
+if n <= k %in a linear code the matrix should be a nxk where the code is a [n,k,d]-code
     error('G must have more column than rows');
 end
-for j=1:nk
+for j=1:k
     if S(j,j) == false                      % we need to create an eyes(nk) matrix so we check the diagonal
-        index = find(S(j:nk,j),1)+j-1;      % index of the first nonzero element of the j-row from j to nk
+        index = find(S(j:k,j),1)+j-1;      % index of the first nonzero element of the j-row from j to nk
         if ~isempty(index)
             temp = S(index,:);              % we swap the index-row with the j-row
             S(index,:) = S(j,:);
