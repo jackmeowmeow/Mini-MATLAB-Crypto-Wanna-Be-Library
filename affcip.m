@@ -8,24 +8,25 @@ function encryptd = affcip()
     txt = input('Enter a phrase that you wish to encrypt it: ','s');
 
     l_key = input ('\nEnter lambda: ');
-    if isempty(l_key)
-        error('you must insert a key value. Please, restart the programme')
-    elseif gcd(l_key,26)~=1 
-        error('Lambda l must be invertible mod26. Please, retry with a different number'); 
+    while isempty(l_key)
+        l_key = input ('You must insert a key value. \nPlease, enter lambda: ');
+    end
+    while gcd(l_key,26)~=1
+        l_key = input ('Lambda l must be invertible mod26. \nEnter lambda: ');
     end
 
     k_key = input ('\nEnter kappa: ');
     if isempty(k_key)
         k_key = 0;
     end
-
+    encryptd = txt;
     l_key = mod(l_key,26);
     k_key = mod(k_key,26);
     index=('a':'z'); %you need to choose the cipher
     for i=1:length(txt)
-        if txt(i)~=' '&&txt(i)~='.'
+        if isletter(txt(i))
             p = find(index==txt(i));
-            encryptd(i)=index(mod(l_key*(p-1)+k_key,26)+1);
+            encryptd(i) = index(mod(l_key*(p-1)+k_key,26)+1);
         end
     end
 end
